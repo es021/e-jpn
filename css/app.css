@@ -1,0 +1,134 @@
+:root {
+    /* Color */
+    --COLOR-RED-LIGHT: #e24434;
+    --COLOR-RED: #c92a18;
+    --COLOR-RED-DARK: #82180d;
+
+    --COLOR-BLUE-LIGHT: #41a3fc;
+    --COLOR-BLUE: #166ab7;
+    --COLOR-BLUE-DARK: #08467f;
+
+    /* Dimension */
+    --HEADER-HEIGHT : 70px;
+    --LEFT-WIDTH: 200px;
+}
+
+* {
+    word-break: keep-all !important;
+    overflow-wrap: break-word;
+}
+
+.break-all {
+    word-break: break-all !important;
+}
+
+html,body.jpn-main{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+html {
+
+    height: 100%;
+}
+
+body.jpn-main {
+    background: var(--COLOR-BLUE-DARK);
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+}
+
+.jpn-header {
+    height: var(--HEADER-HEIGHT);
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: red;
+    z-index: 2;
+}
+
+.jpn-bar-content{
+    padding-top: var(--HEADER-HEIGHT);
+    display: flex;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.jpn-left-bar {
+    width:var(--LEFT-WIDTH);
+    background-color: green;
+    min-height: 100%;
+    z-index: 1;
+}
+
+.jpn-content{
+    min-height: 80vh;
+}
+
+.jpn-footer {
+    background: black;
+    color:white;
+    width: 100%;
+    min-height:100px;
+}
+
+/*
+@media only screen and (min-width: 1000px) {
+    .primary-layout.landing-page {
+        header {
+            padding: 0 111px;
+        }
+    }
+}
+
+@media only screen and (max-width: $LAYOUT_MD) {
+    header,
+    .content,
+    footer {
+        padding-left: $LEFTBAR_MD_WIDTH;
+    }
+    left_bar {
+        width: $LEFTBAR_MD_WIDTH;
+    }
+    .content {
+        flex-flow: column;
+        .main {
+            padding: 15px;
+            flex: 1;
+        }
+        right_bar {
+            flex: 1;
+            min-height: 100px;
+            min-width: 100%;
+        }
+    }
+}
+
+
+
+@media only screen and (max-width: $LAYOUT_SM) {
+    header,
+    .content,
+    footer {
+        padding-left: 0;
+    } //hide left bar and position it under header bar
+    left_bar {
+        width: 100%;
+        height: $LEFTBAR_SM_HEIGHT;
+        top: var(--HEADER-HEIGHT);
+        z-index: 2;
+        display: flex;
+        align-items: center;
+    }
+    .content {
+        padding-top: $HEADER_HEIGHT + $LEFTBAR_SM_HEIGHT;
+        .main {
+            padding: 10px;
+        }
+    }
+
+}
+*/
