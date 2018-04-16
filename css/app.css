@@ -1,40 +1,44 @@
 :root {
     /* Color */
     --COLOR-RED-LIGHT: #e24434;
-    --COLOR-RED: #c92a18;
+    --COLOR-RED: #EF272F;
     --COLOR-RED-DARK: #82180d;
 
     --COLOR-BLUE-LIGHT: #41a3fc;
-    --COLOR-BLUE: #166ab7;
+    --COLOR-BLUE: #0154A1;
     --COLOR-BLUE-DARK: #08467f;
+
+    --COLOR-GRAY-LIGHT : #edf2f6;
+
+    --COLOR-YELLOW: #FADA0C;
 
     /* Dimension */
     --HEADER-HEIGHT : 70px;
     --LEFT-WIDTH: 200px;
 }
 
-* {
+/** {
     word-break: keep-all !important;
     overflow-wrap: break-word;
-}
+}*/
 
 .break-all {
     word-break: break-all !important;
 }
 
 html,body.jpn-main{
+    font-family: 'Montserrat', Helvetica, sans-serif;
     margin: 0;
     padding: 0;
     border: 0;
 }
 
 html {
-
     height: 100%;
 }
 
 body.jpn-main {
-    background: var(--COLOR-BLUE-DARK);
+    background: var(--COLOR-GRAY-LIGHT);
     width: 100%;
     max-width: 100%;
     min-height: 100%;
@@ -46,8 +50,13 @@ body.jpn-main {
     width: 100%;
     top: 0;
     left: 0;
-    background: red;
+    background: white;
     z-index: 2;
+    text-align: left;
+    align-items: center;
+    display: flex;
+    padding: 0 10px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5); 
 }
 
 .jpn-bar-content{
@@ -59,12 +68,13 @@ body.jpn-main {
 
 .jpn-left-bar {
     width:var(--LEFT-WIDTH);
-    background-color: green;
+    background-color: var(--COLOR-BLUE);
     min-height: 100%;
     z-index: 1;
 }
 
 .jpn-content{
+    padding: 10px;
     min-height: 80vh;
 }
 
