@@ -1,0 +1,48 @@
+/* header root level *******/
+.jpn-header{
+/*    display: -webkit-box;    
+    display: -moz-box;     
+    display: -ms-flexbox;   
+    display: -webkit-flex; 
+    display: flex;*/
+
+    background: white;
+    text-align: left;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    padding: 0 10px;
+    box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5); 
+}
+
+/* header left *******/
+.jpn-header .h-left{
+    align-items: center;
+    display: flex;
+
+/*    display: -webkit-box;    
+    display: -moz-box;     
+    display: -ms-flexbox;   
+    display: -webkit-flex; 
+    display: flex;*/
+}
+
+.jpn-header .h-left img.logo{
+    height: var(--HEADER-HEIGHT);
+}
+
+.jpn-header .h-left .title{
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.jpn-header .h-left .subtitle{
+    opacity: 0.8;
+}
+
+/* header right *******/
+.jpn-header .h-right{
+    text-align: center;
+    margin-right: 10px;
+}
+
