@@ -30,11 +30,11 @@ html,body.jpn-main{
     font-family: 'Montserrat', Helvetica, sans-serif;
     margin: 0;
     padding: 0;
-    border: 0;
 }
 
 html {
     height: 100%;
+    width:100%;
 }
 
 body.jpn-main {
@@ -44,10 +44,17 @@ body.jpn-main {
     min-height: 100%;
 }
 
+
+.jpn-header, .jpn-footer{
+    /* to prevent padding go more than 100% width */
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+}
+
 .jpn-header {
     height: var(--HEADER-HEIGHT);
     position: absolute;
-    width: 100%;
     top: 0;
     left: 0;
     background: white;
@@ -74,14 +81,15 @@ body.jpn-main {
 }
 
 .jpn-content{
+    background: red;
     padding: 10px;
     min-height: 80vh;
 }
 
 .jpn-footer {
+    padding: 10px;
     background: black;
     color:white;
-    width: 100%;
     min-height:100px;
 }
 
