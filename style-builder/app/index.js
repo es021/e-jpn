@@ -1,2 +1,9 @@
-require('./app.scss');
-require('./test.scss');
+
+var scssToLoad = [
+    "app", "left-bar", "header", "general"
+];
+
+scssToLoad.map((d, i) => {
+    require(`../../css/scss/${d}.scss`);
+
+})
