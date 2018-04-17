@@ -3,8 +3,8 @@
 
 <ul hidden="hidden" id="list-template" class="navi-list">
     <li class="li-item">
-        <span class="expand"></span>
-        <span class="link">Level 1</span>
+        <div class="expand"></div>
+        <div class="link">Level 1</div>
         <!-- to add more navi-list here of have children -->
     </li>
 </ul>
@@ -43,7 +43,7 @@
         } 
         // no children
         else {
-            expand.css("padding-left","17px");
+            expand.css("padding-left","16px");
             expand.removeClass("expand");
         }
         return el;

@@ -7,6 +7,10 @@
     font-size: 14px;
 }
 
+.jpn-left-bar .li-item{
+    display: flex;
+}
+
 .jpn-left-bar .expand{
     cursor: pointer;
 }
@@ -18,6 +22,7 @@
 .jpn-left-bar .link{
     cursor: pointer;
 }
+
 
 /* ############################ */
 /* 1st level parent only */

@@ -1,3 +1,4 @@
 $(document).ready(function () {
-    console.log("App Loaded");
+    console.log("App Ready");
 }); 
+

@@ -1,21 +1,13 @@
 <div class="jpn-content">
-    
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
-    Hi this is content<br>
 </div>
+
+<script>
+    $(document).ready(function () {
+        var page = Util._GET("page");
+        var parent = $(".jpn-content");
+        if (!page) {
+            page = "home";
+        }
+        parent.html("Loading page " + page);
+    });
+</script>
