@@ -5,5 +5,4 @@ var scssToLoad = [
 
 scssToLoad.map((d, i) => {
     require(`../../css/scss/${d}.scss`);
-
 })
