@@ -28,7 +28,7 @@
         if (this.isParent) {
             el.addClass("parent");
         }
-        
+
         // has children
         if (this.children !== null) {
             var childs = $("<div class='children'></div>");
@@ -40,10 +40,10 @@
             el.append(childs);
             expand.html(this.getArrow("down"));
 
-        } 
+        }
         // no children
         else {
-            expand.css("padding-left","16px");
+            expand.css("padding-left", "16px");
             expand.removeClass("expand");
         }
         return el;
@@ -74,7 +74,7 @@
                 var e = $(this);
                 var par = e.parent().parent();
                 var child = $(par.find(".children")[0]);
-                
+
                 if (typeof child.attr("hidden") === "undefined") {
                     child.attr("hidden", "hidden");
                     e.html(JPNNavi.getArrow("right"));
@@ -110,7 +110,10 @@
             n = new JpnNavi("Level 3", "", [
                 new JpnNavi("Level 3 - Child 1", ""),
                 new JpnNavi("Level 3 - Child 2", "", [
-                    new JpnNavi("Level 3 - Child 2 Child 1", ""),
+                    new JpnNavi("Level 3 - Child 2 Child 1", "", [
+                        new JpnNavi("Level 3 - GrandChildren 2 Child 1", ""),
+                        new JpnNavi("Level 3 - GrandChildren 2 Child 1", "")
+                    ]),
                     new JpnNavi("Level 3 - Child 2 Child 2", "")
                 ]),
                 new JpnNavi("Level 3 - Child 3", "")
