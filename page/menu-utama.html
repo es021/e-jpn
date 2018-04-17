@@ -1,0 +1,61 @@
+<h1 class="text-center">Menu Utama</h1>
+<div id="jpn-menu-utama" class="jpn-img-menu">
+</div>
+<a id="jim-item-template" class="jim-item">
+    <div class="detail">
+        <div class="label">Label</div>
+        <div class="desc">Description</div>
+    </div>
+</a>
+
+<script>
+    $(document).ready(function () {
+
+        function getData() {
+            var data = [
+                {
+                    label: "Urusniaga", url: "aa"
+                    , desc: "Butiran lanjut mengenai 'Urusniaga'"
+                    , imgUrl: "/test-e/asset/image/menu-utama/urusniaga.jpg", imgSize: "", imgPos: ""
+                },
+                {
+                    label: "Pertanyaan", url: "aa"
+                    , desc: "Butiran lanjut mengenai 'Pertanyaan'"
+                    , imgUrl: "/test-e/asset/image/menu-utama/pertanyaan.jpg", imgSize: "", imgPos: ""
+                },
+                {
+                    label: "Hebahan", url: "aa"
+                    , desc: "Butiran lanjut mengenai 'Hebahan'"
+                    , imgUrl: "/test-e/asset/image/menu-utama/hebahan.jpg", imgSize: "", imgPos: ""
+                },
+                {
+                    label: "Informasi", url: "aa"
+                    , desc: "Butiran lanjut mengenai 'Informasi'"
+                    , imgUrl: "/test-e/asset/image/menu-utama/informasi.jpg", imgSize: "", imgPos: ""
+                },
+            ];
+
+            return data;
+        }
+
+
+        var parent = $("#jpn-menu-utama");
+        var template = $("#jim-item-template");
+        template.hide();
+
+        var data = getData();
+        data.map(function (d, i) {
+            var t = template.clone(true, true);
+            var label = t.find(".label");
+            var desc = t.find(".desc");
+
+            desc.html(d.desc);
+            label.html(d.label);
+
+            t.attr("href", d.url);
+            t.css("background-image", "url('" + d.imgUrl + "')");
+            t.show();
+            parent.append(t);
+        })
+    })
+</script>

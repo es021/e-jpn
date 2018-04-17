@@ -1,21 +1,4 @@
-:root {
-    /* Color */
-    --COLOR-RED-LIGHT: #e24434;
-    --COLOR-RED: #EF272F;
-    --COLOR-RED-DARK: #82180d;
-
-    --COLOR-BLUE-LIGHT: #41a3fc;
-    --COLOR-BLUE: #0154A1;
-    --COLOR-BLUE-DARK: #031533;
-
-    --COLOR-GRAY-LIGHT : #edf2f6;
-
-    --COLOR-YELLOW: #FADA0C;
-
-    /* Dimension */
-    --HEADER-HEIGHT : 100px;
-    --LEFT-WIDTH: 350px;
-}
+@import '_constant.scss';
 
 /** {
     word-break: keep-all !important;
@@ -38,7 +21,7 @@ html {
 }
 
 body.jpn-main {
-    background: var(--COLOR-GRAY-LIGHT);
+    background: $COLOR-GRAY-LIGHT;
     width: 100%;
     max-width: 100%;
     min-height: 100%;
@@ -52,7 +35,7 @@ body.jpn-main {
 }
 
 .jpn-header {
-    height: var(--HEADER-HEIGHT);
+    height: $HEADER-HEIGHT;
     position: absolute;
     top: 0;
     left: 0;
@@ -60,30 +43,33 @@ body.jpn-main {
 }
 
 .jpn-bar-content{
-    padding-top: var(--HEADER-HEIGHT);
+    
+    padding-top: $HEADER-HEIGHT;
     display: flex;
     min-width: 100%;
     min-height: 100%;
 }
 
 .jpn-left-bar {
-    width:var(--LEFT-WIDTH);
-    background-color: var(--COLOR-BLUE);
+    width:$LEFT-WIDTH;
+    background-color: $COLOR-BLUE;
     min-height: 100%;
     padding-top: 5px;
     z-index: 1;
 }
 
 .jpn-content{
-    background: var(--COLOR-GRAY-LIGHT);
     padding: 10px;
+    padding-left: $LEFT-WIDTH;
+    background: $COLOR-GRAY-LIGHT;
     min-height: 80vh;
     width: 100%;
 }
 
 .jpn-footer {
     padding: 10px;
-    background: var(--COLOR-BLUE-DARK);
+    padding-left: $LEFT-WIDTH + 10;
+    background: $COLOR-BLUE-DARK;
     color:white;
     min-height:100px;
 }
@@ -131,7 +117,7 @@ body.jpn-main {
     left_bar {
         width: 100%;
         height: $LEFTBAR_SM_HEIGHT;
-        top: var(--HEADER-HEIGHT);
+        top: $HEADER-HEIGHT);
         z-index: 2;
         display: flex;
         align-items: center;

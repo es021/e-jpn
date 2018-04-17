@@ -1,14 +1,34 @@
 <div class="jpn-content">
-  
+    <div class="content-body" hidden="hidden">
+    </div>
+    <div class="content-load">
+        <i class='fa fa-spinner fa-pulse fa-3x'></i>
+        <br> Loading Page..
+    </div>
 </div>
 
 <script>
     $(document).ready(function () {
         var page = Util._GET("page");
-        var parent = $(".jpn-content");
+        var body = $(".jpn-content .content-body");
+        var load = $(".jpn-content .content-load");
+
         if (!page) {
-            page = "home";
+            page = "menu-utama";
         }
-        parent.append("Loading page " + page);
+
+        //return;
+        var file = SITE_ROOT + "/page/" + page + ".html";
+        $.get(file, function (data) {
+            finishLoad(data);
+        }).fail(function (err) {
+            finishLoad(err.responseText);
+        });
+
+        function finishLoad(data) {
+            body.html(data);
+            body.show();
+            load.hide();
+        }
     });
 </script>

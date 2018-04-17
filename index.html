@@ -6,6 +6,7 @@
 -->
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,6 +66,7 @@
     </div>
 
     <script>
+
         $(document).ready(function () {
             function MainLoadAsset() {
                 //console.log("Start Load Asset");
@@ -135,6 +137,18 @@
                     }
                 }
 
+
+                function includeHtml(id, callback = null) {
+                    var e = $("#" + id);
+                    var file = SITE_ROOT + "/" + e.attr("data-file") + "?v=" + HTML_VER;
+                    $.get(file, function (data) {
+                        e.replaceWith(data);
+                        if (callback !== null) {
+                            callback();
+                        }
+                    });
+                }
+
                 cssToLoad.map(function (d, i) {
                     var callback = null;
                     if (i === 0) {
@@ -155,29 +169,6 @@
                 });
             }
 
-            function includeHtml(id, callback = null) {
-                var e = $("#" + id);
-                var file = SITE_ROOT + "/" + e.attr("data-file") + "?v=" + HTML_VER;
-                /*make an HTTP request using the attribute value as the file name:*/
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4) {
-                        if (this.status == 200) {
-                            e.replaceWith(this.responseText);
-                        }
-                        if (this.status == 404) {
-                            e.html("Page not found for " + id);
-                        }
-
-                        if (callback !== null) {
-                            callback();
-                        }
-                    }
-                };
-
-                xhttp.open("GET", file, true);
-                xhttp.send();
-            }
             MainLoadAsset();
         });
     </script>

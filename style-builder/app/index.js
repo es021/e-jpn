@@ -1,6 +1,6 @@
 
 var scssToLoad = [
-    "app", "left-bar", "header", "general"
+    "app", "left-bar", "header", "general", "content","img-menu"
 ];
 
 scssToLoad.map((d, i) => {

@@ -10,6 +10,8 @@
 .jpn-left-bar{
     overflow-x: scroll;
     overflow-y: scroll;
+    max-height: 100vh;
+    position: absolute;
 }
 
 .jpn-left-bar .li-item{
@@ -35,13 +37,12 @@
     text-decoration: underline;
 }
 
-
 /* ############################ */
 /* 1st level parent only */
 
 .jpn-left-bar ul.parent{
     padding: 5px;
-    padding-left: 10px;
+    padding-left: 7px;
     border-bottom: rgba(255,255,255,0.5) solid 1px;
 }
 
