@@ -7,6 +7,21 @@
     font-size: 14px;
 }
 
+.jpn-left-bar .expand{
+    cursor: pointer;
+}
+
+.jpn-left-bar .expand:hover{
+    opacity: 0.8;
+}
+
+.jpn-left-bar .link{
+    cursor: pointer;
+}
+
+/* ############################ */
+/* 1st level parent only */
+
 .jpn-left-bar ul.parent{
     padding: 5px;
     padding-left: 10px;
@@ -15,4 +30,12 @@
 
 .jpn-left-bar ul.parent:last-of-type{
     border-bottom: none;
+}
+
+.jpn-left-bar ul.navi-list.parent{
+    font-weight: bold;
+}
+
+.jpn-left-bar ul.navi-list{
+    font-weight: normal;
 }

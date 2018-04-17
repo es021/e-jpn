@@ -30,13 +30,22 @@
             var CSS_VER = "123";
             var HTML_VER = "123";
 
-            var cssToLoad = [SITE_ROOT + "/css/loading.css" // this need to be the first one to load
-                        , SITE_ROOT + "/css/fontawesome-all.min.css"
-                        , SITE_ROOT + "/css/app.css"
-                        , SITE_ROOT + "/css/left-bar.css"];
+            function jpnGetFileUrl(type, arr) {
+                return arr.map((d, i) => {
+                    switch (type) {
+                        case 'css':
+                            return SITE_ROOT + "/css/" + d + ".css";
+                        case 'js':
+                            return SITE_ROOT + "/js/" + d + ".js";
+                    }
+                });
+            }
 
-            var jsToLoad = [SITE_ROOT + "/js/app.js"];
-
+            var cssToLoad = jpnGetFileUrl("css", [
+                "loading", "fontawesome-all.min",
+                "app", "left-bar", "general"
+            ]);
+            var jsToLoad = jpnGetFileUrl("js", ["app"]);
             var htmlToLoad = ["header-html", "left-bar-html", "content-html", "footer-html"];
         </script>
     </head>
@@ -57,122 +66,121 @@
         </div>
 
         <script>
-            function MainLoadAsset() {
-                //console.log("Start Load Asset");
-                //console.log(window.location.host);
-                var assetLoaded = 0;
-                var totalAsset = cssToLoad.length + jsToLoad.length + htmlToLoad.length;
+            $(document).ready(function () {
+                function MainLoadAsset() {
+                    //console.log("Start Load Asset");
+                    //console.log(window.location.host);
+                    var assetLoaded = 0;
+                    var totalAsset = cssToLoad.length + jsToLoad.length + htmlToLoad.length;
 
-                // init dom
-                var body = document.getElementsByTagName("body")[0];
-                var head = document.getElementsByTagName("head")[0];
-                var app = document.getElementById('jpn-app');
-                var app_load = document.getElementById('jpn-app-loading');
-                var app_load_img = document.getElementById('jpn-app-loading-img');
-                // load loading image
-                app_load_img.src = SITE_ROOT + "/asset/image/loader.gif";
+                    // init dom
+                    var body = document.getElementsByTagName("body")[0];
+                    var head = document.getElementsByTagName("head")[0];
+                    var app = document.getElementById('jpn-app');
+                    var app_load = document.getElementById('jpn-app-loading');
+                    var app_load_img = document.getElementById('jpn-app-loading-img');
+                    // load loading image
+                    app_load_img.src = SITE_ROOT + "/asset/image/loader.gif";
 
-                function defaultCallback() {
-                    assetLoaded++;
-                    //console.log(assetLoaded, totalAsset);
-                    if (assetLoaded >= totalAsset) {
-                        // hide the loading
-                        //return;
-                        app_load.style["opacity"] = "0";
-                        app_load_img.style["opacity"] = "0";
-                        setTimeout(function () {
-                            app_load.style["display"] = "none";
-                        }, 500);
-                    }
-                }
-
-                //show loading until the main bundle finish load
-                function loadAsset(type, url, callback = null) {
-                    var asset = null;
-                    if (type === 'js') {
-                        asset = document.createElement("script");
-                        asset.type = "text/javascript";
-                    } else if (type === 'css') {
-                        asset = document.createElement("link");
-                        asset.rel = "stylesheet";
+                    function defaultCallback() {
+                        assetLoaded++;
+                        //console.log(assetLoaded, totalAsset);
+                        if (assetLoaded >= totalAsset) {
+                            // hide the loading
+                            //return;
+                            app_load.style["opacity"] = "0";
+                            app_load_img.style["opacity"] = "0";
+                            setTimeout(function () {
+                                app_load.style["display"] = "none";
+                            }, 500);
+                        }
                     }
 
-                    if (asset.readyState) {  //IE
-                        asset.onreadystatechange = function () {
-                            if (asset.readyState === "loaded" || asset.readyState === "complete") {
-                                asset.onreadystatechange = null;
+                    //show loading until the main bundle finish load
+                    function loadAsset(type, url, callback = null) {
+                        var asset = null;
+                        if (type === 'js') {
+                            asset = document.createElement("script");
+                            asset.type = "text/javascript";
+                        } else if (type === 'css') {
+                            asset = document.createElement("link");
+                            asset.rel = "stylesheet";
+                        }
+
+                        if (asset.readyState) {  //IE
+                            asset.onreadystatechange = function () {
+                                if (asset.readyState === "loaded" || asset.readyState === "complete") {
+                                    asset.onreadystatechange = null;
+                                    if (callback !== null) {
+                                        callback();
+                                    }
+                                    defaultCallback();
+                                }
+                            };
+                        } else {  //Others
+                            asset.onload = function () {
                                 if (callback !== null) {
                                     callback();
                                 }
                                 defaultCallback();
+                            };
+                        }
+
+                        if (type === 'js') {
+                            asset.src = url + "?v=" + JS_VER;
+                            head.appendChild(asset);
+
+                        } else if (type === 'css') {
+                            asset.href = url + "?v=" + CSS_VER;
+                            head.appendChild(asset);
+                    }
+                    }
+
+                    cssToLoad.map(function (d, i) {
+                        var callback = null;
+                        if (i === 0) {
+                            // once loading css finish show the loader gif
+                            callback = function () {
+                                app_load_img.removeAttribute("hidden");
+                            };
+                        }
+                        loadAsset("css", d, callback);
+                    });
+
+                    jsToLoad.map(function (d, i) {
+                        loadAsset("js", d);
+                    });
+
+                    htmlToLoad.map(function (id, i) {
+                        includeHtml(id, defaultCallback);
+                    });
+
+                }
+
+
+                function includeHtml(id, callback = null) {
+                    var e = $("#" + id);
+                    var file = SITE_ROOT + "/" + e.attr("data-file") + "?v=" + HTML_VER;
+                    /*make an HTTP request using the attribute value as the file name:*/
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4) {
+                            if (this.status == 200) {
+                                e.replaceWith(this.responseText);
                             }
-                        };
-                    } else {  //Others
-                        asset.onload = function () {
+                            if (this.status == 404) {
+                                e.html("Page not found for " + id);
+                            }
+
                             if (callback !== null) {
                                 callback();
                             }
-                            defaultCallback();
-                        };
-                    }
+                        }
+                    };
 
-                    if (type === 'js') {
-                        asset.src = url + "?v=" + JS_VER;
-                        head.appendChild(asset);
-
-                    } else if (type === 'css') {
-                        asset.href = url + "?v=" + CSS_VER;
-                        head.appendChild(asset);
+                    xhttp.open("GET", file, true);
+                    xhttp.send();
                 }
-                }
-
-                cssToLoad.map(function (d, i) {
-                    var callback = null;
-                    if (i === 0) {
-                        // once loading css finish show the loader gif
-                        callback = function () {
-                            app_load_img.removeAttribute("hidden");
-                        };
-                    }
-                    loadAsset("css", d, callback);
-                });
-
-                jsToLoad.map(function (d, i) {
-                    loadAsset("js", d);
-                });
-
-                htmlToLoad.map(function (id, i) {
-                    includeHtml(id, defaultCallback);
-                });
-
-            }
-
-
-            function includeHtml(id, callback = null) {
-                var e = $("#" + id);
-                var file = SITE_ROOT + "/" + e.attr("data-file") + "?v=" + HTML_VER;
-                /*make an HTTP request using the attribute value as the file name:*/
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4) {
-                        if (this.status == 200) {
-                            e.append(this.responseText);
-                        }
-                        if (this.status == 404) {
-                            e.append("Page not found.");
-                        }
-
-                        if (callback !== null) {
-                            callback();
-                        }
-                    }
-                };
-
-                xhttp.open("GET", file, true);
-                xhttp.send();
-            }
-
-            $(document).ready(function () {
                 MainLoadAsset();
             });
         </script>

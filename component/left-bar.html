@@ -1,23 +1,150 @@
 <div class="jpn-left-bar">
-    <ul class="navi-list parent">
-        <li><i class="fas fa-adjust"></i>Level 12
-            <ul class="navi-list">
-                <li>Level 2</li>
-            </ul>
-        </li>
-    </ul>
-    <ul class="navi-list parent">
-        <li>Level 1
-            <ul class="navi-list">
-                <li>Level 2</li>
-            </ul>
-        </li>
-    </ul>
-    <ul class="navi-list parent">
-        <li>Level 1
-            <ul class="navi-list">
-                <li>Level 2</li>
-            </ul>
-        </li>
-    </ul>
 </div>
+
+<ul hidden="hidden" id="list-template" class="navi-list">
+    <li class="li-item">
+        <span class="expand"></span>
+        <span class="link">Level 1</span>
+        <!-- to add more navi-list here of have children -->
+    </li>
+</ul>
+
+<script>
+
+    var JpnNavi = function (label, url, children = null, isParent = false) {
+        this.label = label;
+        this.url = url;
+        this.isParent = isParent;
+        this.children = children;
+    };
+
+    JpnNavi.prototype.renderList = function (template) {
+        var el = template.clone(true, true);
+        el.removeAttr("hidden");
+        var expand = el.find(".expand");
+        var link = el.find(".link");
+        link.html(this.label);
+
+        if (this.isParent) {
+            el.addClass("parent");
+        }
+        
+        // has children
+        if (this.children !== null) {
+            var childs = $("<div class='children'></div>");
+            for (var i in this.children) {
+                var c = this.children[i];
+                var c_el = c.renderList(template);
+                childs.append(c_el);
+            }
+            el.append(childs);
+            expand.html(this.getArrow("down"));
+
+        } 
+        // no children
+        else {
+            expand.css("padding-left","17px");
+            expand.removeClass("expand");
+        }
+        return el;
+    };
+
+    JpnNavi.prototype.getArrow = function (type) {
+        return "<i class='fa fa-chevron-circle-" + type + " left sm'></i>";
+    };
+
+    $(document).ready(function () {
+
+        // #######################################
+        var parent = $(".jpn-left-bar");
+        var template = $("#list-template");
+        var JPNNavi = new JpnNavi();
+
+        function renderNavis(navis, template) {
+            for (var i in navis) {
+                var n = navis[i];
+                var el = n.renderList(template);
+                parent.append(el);
+            }
+        }
+
+        function addEventListener() {
+            var expands = parent.find(".expand");
+            expands.click(function () {
+                var e = $(this);
+                var par = e.parent().parent();
+                var child = $(par.find(".children")[0]);
+                
+                if (typeof child.attr("hidden") === "undefined") {
+                    child.attr("hidden", "hidden");
+                    e.html(JPNNavi.getArrow("right"));
+                } else {
+                    child.removeAttr("hidden");
+                    e.html(JPNNavi.getArrow("down"));
+                }
+            });
+        }
+
+        function getData() {
+            // #########################################
+            // prepare data
+            var navis = [];
+            var n = new JpnNavi("Level 1", "", [
+                new JpnNavi("Level 1 - Child 1", ""),
+                new JpnNavi("Level 1 - Child 2", ""),
+                new JpnNavi("Level 1 - Child 3", ""),
+                new JpnNavi("Level 1 - Child 4", ""),
+                new JpnNavi("Level 1 - Child 5", "")
+            ], true);
+            navis.push(n);
+
+            n = new JpnNavi("Level 2", "", [
+                new JpnNavi("Level 2 - Child 1", ""),
+                new JpnNavi("Level 2 - Child 2", ""),
+                new JpnNavi("Level 2 - Child 3", ""),
+                new JpnNavi("Level 2 - Child 4", ""),
+                new JpnNavi("Level 2 - Child 5", "")
+            ], true);
+            navis.push(n);
+
+            n = new JpnNavi("Level 3", "", [
+                new JpnNavi("Level 3 - Child 1", ""),
+                new JpnNavi("Level 3 - Child 2", "", [
+                    new JpnNavi("Level 3 - Child 2 Child 1", ""),
+                    new JpnNavi("Level 3 - Child 2 Child 2", "")
+                ]),
+                new JpnNavi("Level 3 - Child 3", "")
+            ], true);
+            navis.push(n);
+
+            n = new JpnNavi("Level 2", "", [
+                new JpnNavi("Level 2 - Child 1", ""),
+                new JpnNavi("Level 2 - Child 2", ""),
+                new JpnNavi("Level 2 - Child 3", ""),
+                new JpnNavi("Level 2 - Child 4", ""),
+                new JpnNavi("Level 2 - Child 5", "")
+            ], true);
+            navis.push(n);
+
+            n = new JpnNavi("Level 3", "", [
+                new JpnNavi("Level 3 - Child 1", ""),
+                new JpnNavi("Level 3 - Child 2", "", [
+                    new JpnNavi("Level 3 - Child 2 Child 1", ""),
+                    new JpnNavi("Level 3 - Child 2 Child 2", "")
+                ]),
+                new JpnNavi("Level 3 - Child 3", "")
+            ], true);
+            navis.push(n);
+
+            return navis;
+        }
+
+        function Main() {
+            var navis = getData();
+            renderNavis(navis, template);
+            addEventListener();
+        }
+
+        Main();
+    });
+</script>

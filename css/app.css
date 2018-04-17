@@ -6,7 +6,7 @@
 
     --COLOR-BLUE-LIGHT: #41a3fc;
     --COLOR-BLUE: #0154A1;
-    --COLOR-BLUE-DARK: #08467f;
+    --COLOR-BLUE-DARK: #031533;
 
     --COLOR-GRAY-LIGHT : #edf2f6;
 
@@ -44,7 +44,6 @@ body.jpn-main {
     min-height: 100%;
 }
 
-
 .jpn-header, .jpn-footer{
     /* to prevent padding go more than 100% width */
     box-sizing: border-box;
@@ -63,7 +62,7 @@ body.jpn-main {
     align-items: center;
     display: flex;
     padding: 0 10px;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5); 
+    box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5); 
 }
 
 .jpn-bar-content{
@@ -77,18 +76,20 @@ body.jpn-main {
     width:var(--LEFT-WIDTH);
     background-color: var(--COLOR-BLUE);
     min-height: 100%;
+    padding-top: 5px;
     z-index: 1;
 }
 
 .jpn-content{
-    background: red;
+    background: var(--COLOR-GRAY-LIGHT);
     padding: 10px;
     min-height: 80vh;
+    width: 100%;
 }
 
 .jpn-footer {
     padding: 10px;
-    background: black;
+    background: var(--COLOR-BLUE-DARK);
     color:white;
     min-height:100px;
 }
