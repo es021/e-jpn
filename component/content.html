@@ -18,7 +18,7 @@
         }
 
         //return;
-        var file = SITE_ROOT + "/page/" + page + ".html";
+        var file = SITE_ROOT + "/page/" + page + ".html?v=" + HTML_VER;
         $.get(file, function (data) {
             finishLoad(data);
         }).fail(function (err) {
