@@ -1,14 +1,13 @@
 @import '_constant.scss';
 
-/** {
+/** * {
     word-break: keep-all !important;
     overflow-wrap: break-word;
 }*/
-
 .break-all {
     word-break: break-all !important;
 }
-
+ 
 html,body.jpn-main{
     font-family: 'Montserrat', Helvetica, sans-serif;
     margin: 0;
@@ -67,7 +66,7 @@ body.jpn-main {
 }
 
 .jpn-footer {
-    padding: 10px;
+    padding: 10px; 
     padding-left: $LEFT-WIDTH + 10;
     background: $COLOR-BLUE-DARK;
     color:white;
