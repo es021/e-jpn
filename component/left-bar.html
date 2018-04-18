@@ -105,22 +105,25 @@
             // #########################################
             // prepare data
             var ERR_MES = "Failed to get navigation list.<br>";
-            $.get(url, function (data) {
-                try {
-                    data = JSON.parse(data);
-                    navis = data.map((d, i) => {
-                        return createJpnNavi(d);
-                    });
-                    success(navis);
-                    return navis;
+            $.ajax({
+                dataType: "json",
+                url: url,
+                data: {},
+                success: function (data) {
+                    try {
+                        console.log(data);
+                        //data = JSON.parse(data);
+                        navis = data.map((d, i) => {
+                            return createJpnNavi(d);
+                        });
+                        success(navis);
+                        return navis;
 
-                } catch (err) {
-                    parent.html(ERR_MES + err);
-                    return false;
+                    } catch (err) {
+                        parent.html(ERR_MES + err);
+                        return false;
+                    }
                 }
-            }).fail(function (err) {
-                parent.html(ERR_MES + err);
-                return false;
             });
         }
 
@@ -145,7 +148,7 @@
                 // var cur = resizer.css("left");
                 // cur = Number.parseInt(cur.replace("px", ""));
                 // console.log(cur);
-              
+
                 //doResizing(ev.pageX);
 
             });
