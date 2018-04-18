@@ -1,18 +1,39 @@
 <div class="jpn-header">
     <div class="h-left">
-        <img class="logo" src="/test-e/asset/image/jpn-logo-sm.jpg" style="height: 80px; margin:0 10px;"/>
+        <img class="logo" src="/test-e/asset/image/jpn-logo-sm.jpg" style="height: 60px; margin:0 10px;" />
         <div class="detail">
             <div class="title">
-                Transformasi Sistem JPN
+                Jabatan Pendaftaran Negara
             </div>
             <div class="subtitle">
-                Melangkah Ke Era TN50
+                Kementerian Dalam Negeri
             </div>
         </div>
     </div>
-    <div class="h-right">
-        <i>Selamat Bertugas,</i><br>
-        <b>Muhammad Abdullah</b><br>
-        <small>April 12, 2018 | 11:50 AM</small>
+    <div class="text-center h-right">
+        <small>
+            <i>Selamat Bertugas</i>
+        </small>
+        <br>
+        <b id="hdr-name"></b>
+        <br>
+        <small>
+            <span id="hdr-office"></span>
+            <br>
+            <i id="hdr-time">Month DD, YYY | HH:MM AM</i>
+        </small>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        var parent = $(".jpn-header");
+        var name = parent.find("#hdr-name");
+        var office = parent.find("#hdr-office");
+        var time = parent.find("#hdr-time");
+        
+        name.html("Wan Zulsarhan");
+        office.html("JPN IBU PEJABAT PUTRAJAYA");
+        time.html("April 12, 2018 | 11:50 AM");
+    });
+</script>

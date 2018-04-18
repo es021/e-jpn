@@ -5,12 +5,14 @@
   "main": "index.js",
   "watch": {
     "build": {
-      "patterns": ["../css/scss"],
+      "patterns": [
+        "../css/scss"
+      ],
       "extensions": "scss",
       "quiet": true,
-      "legacyWatch": true, 
+      "legacyWatch": true,
       "delay": 1000
-    } 
+    }
   },
   "scripts": {
     "build": "NODE_ENV=production webpack -p --progress && sudo cp -a ./public/asset/css/. ../css/",
@@ -42,6 +44,7 @@
     "file-loader": "^0.11.2",
     "react-hot-loader": "^1.3.1",
     "style-loader": "^0.18.2",
+    "uglifyjs-webpack-plugin": "^1.2.4",
     "url-loader": "^0.5.9"
   }
 }

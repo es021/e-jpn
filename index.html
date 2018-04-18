@@ -20,16 +20,17 @@
     -->
     <meta name="description" content="TestE" />
     <title>TestE</title>
-    <!-- jQuery need to be loaded separately -->
+    <!-- Model for global has to be loaded here need to be loaded separately -->
     <script src="/test-e/js/jquery.min.js" type="text/javascript"></script>
     <script>
         $ = jQuery;
         // Define Global Variable
         var SITE_ROOT = "test-e";
 
-        var JS_VER = "v4";
-        var CSS_VER = "v4";
-        var HTML_VER = "v4";
+        var MASTER_VER = "v53";
+        var JS_VER = MASTER_VER;
+        var CSS_VER = MASTER_VER;
+        var HTML_VER = MASTER_VER;
 
         function jpnGetFileUrl(type, arr) {
             return arr.map((d, i) => {
@@ -41,12 +42,10 @@
                 }
             });
         }
-
         var cssToLoad = jpnGetFileUrl("css", [
             "loading", "fontawesome-all.min", "main.bundle"
         ]);
-
-        var jsToLoad = jpnGetFileUrl("js", ["Util", "app"]);
+        var jsToLoad = jpnGetFileUrl("js", ["Util"]);
         var htmlToLoad = ["header-html", "left-bar-html", "content-html", "footer-html"];
     </script>
 </head>
@@ -60,20 +59,22 @@
     <div id="jpn-app">
         <div id="header-html" data-file="/component/header.html"></div>
         <div class="jpn-bar-content">
-            <div id="left-bar-html" data-file="/component/left-bar.html"></div>
             <div id="content-html" data-file="/component/content.html"></div>
+            <div id="left-bar-html" data-file="/component/left-bar.html"></div>
         </div>
         <div id="footer-html" data-file="/component/footer.html"></div>
     </div>
 
     <script>
-
         $(document).ready(function () {
             function MainLoadAsset() {
                 //console.log("Start Load Asset");
                 //console.log(window.location.host);
                 var assetLoaded = 0;
-                var totalAsset = cssToLoad.length + jsToLoad.length + htmlToLoad.length;
+                var totalAsset = jsToLoad.length + cssToLoad.length + htmlToLoad.length;
+
+                var jsLoaded = 0;
+                var totalJs = jsToLoad.length;
 
                 // init dom
                 var body = document.getElementsByTagName("body")[0];
@@ -84,7 +85,17 @@
                 // load loading image
                 app_load_img.src = SITE_ROOT + "/asset/image/loader.gif";
 
-                function defaultCallback() {
+                function defaultCallback(type) {
+                    if (type == "js") {
+                        jsLoaded++;
+                        if (jsLoaded >= totalJs) {
+                            //all js loaded then only can load html
+                            htmlToLoad.map(function (id, i) {
+                                includeHtml(id, defaultCallback);
+                            });
+                        }
+                    }
+
                     assetLoaded++;
                     //console.log(assetLoaded, totalAsset);
                     if (assetLoaded >= totalAsset) {
@@ -116,7 +127,7 @@
                                 if (callback !== null) {
                                     callback();
                                 }
-                                defaultCallback();
+                                defaultCallback(type);
                             }
                         };
                     } else {  //Others
@@ -124,7 +135,7 @@
                             if (callback !== null) {
                                 callback();
                             }
-                            defaultCallback();
+                            defaultCallback(type);
                         };
                     }
 
@@ -145,11 +156,12 @@
                     $.get(file, function (data) {
                         e.replaceWith(data);
                         if (callback !== null) {
-                            callback();
+                            callback("html");
                         }
                     });
                 }
 
+                // 1. load css
                 cssToLoad.map(function (d, i) {
                     var callback = null;
                     if (i === 0) {
@@ -161,13 +173,11 @@
                     loadAsset("css", d, callback);
                 });
 
+                // 2. load js
                 jsToLoad.map(function (d, i) {
                     loadAsset("js", d);
                 });
 
-                htmlToLoad.map(function (id, i) {
-                    includeHtml(id, defaultCallback);
-                });
             }
 
             MainLoadAsset();

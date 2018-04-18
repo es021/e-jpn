@@ -1,14 +1,15 @@
 @import '_constant.scss';
-
 /** * {
     word-break: keep-all !important;
     overflow-wrap: break-word;
 }*/
+
 .break-all {
     word-break: break-all !important;
 }
- 
-html,body.jpn-main{
+
+html,
+body.jpn-main {
     font-family: 'Montserrat', Helvetica, sans-serif;
     margin: 0;
     padding: 0;
@@ -16,7 +17,7 @@ html,body.jpn-main{
 
 html {
     height: 100%;
-    width:100%;
+    width: 100%;
 }
 
 body.jpn-main {
@@ -26,39 +27,41 @@ body.jpn-main {
     min-height: 100%;
 }
 
-.jpn-header, .jpn-footer{
+.jpn-header,
+.jpn-footer,
+.jpn-left-bar {
     /* to prevent padding go more than 100% width */
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-    width: 100%;
 }
 
 .jpn-header {
     height: $HEADER-HEIGHT;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 2;
+    width: 100%;
 }
 
-.jpn-bar-content{
-    
-    padding-top: $HEADER-HEIGHT;
+.jpn-bar-content {
     display: flex;
-    min-width: 100%;
-    min-height: 100%;
+    width: 100%;
 }
 
 .jpn-left-bar {
-    width:$LEFT-WIDTH;
+    /* to prevent padding go more than 100% width */
+    padding-top: $HEADER-HEIGHT + 5;
+    width: $LEFT-WIDTH;
     background-color: $COLOR-BLUE;
     min-height: 100%;
-    padding-top: 5px;
     z-index: 1;
+    position: fixed;
 }
 
-.jpn-content{
+.jpn-content {
     padding: 10px;
+    padding-top: $HEADER-HEIGHT + 10;
     padding-left: $LEFT-WIDTH;
     background: $COLOR-GRAY-LIGHT;
     min-height: 80vh;
@@ -66,11 +69,11 @@ body.jpn-main {
 }
 
 .jpn-footer {
-    padding: 10px; 
+    padding: 10px;
     padding-left: $LEFT-WIDTH + 10;
     background: $COLOR-BLUE-DARK;
-    color:white;
-    min-height:100px;
+    color: white;
+    min-height: 100px;
 }
 
 /*

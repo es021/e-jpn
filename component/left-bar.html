@@ -1,5 +1,7 @@
 <div class="jpn-left-bar">
+    <!-- <div id="left-bar-resizer"></div> -->
 </div>
+
 
 <ul hidden="hidden" id="list-template" class="navi-list">
     <li class="li-item">
@@ -11,7 +13,8 @@
 
 <script>
 
-    var JpnNavi = function (label, url, children = null, isParent = false) {
+    var JpnNavi = function (id, label, url, children = null, isParent = false) {
+        this.id = id;
         this.label = label;
         this.url = url;
         this.isParent = isParent;
@@ -57,6 +60,9 @@
 
         // #######################################
         var parent = $(".jpn-left-bar");
+        var resizer = parent.find("#left-bar-resizer");
+        var content = $(".jpn-content");
+
         var template = $("#list-template");
         var JPNNavi = new JpnNavi();
 
@@ -85,69 +91,90 @@
             });
         }
 
-        function getData() {
+        function createJpnNavi(d) {
+            var children = null;
+            if (d.children !== null && Array.isArray(d.children)) {
+                children = d.children.map((_d, _i) => {
+                    return createJpnNavi(_d);
+                })
+            }
+            return new JpnNavi(d.id, d.label, d.url, children, d.isParent);
+        }
+
+        function getData(url, success) {
             // #########################################
             // prepare data
-            var navis = [];
-            var n = new JpnNavi("Kelahiran", "", [
-                new JpnNavi("311050 - XXX", ""),
-                new JpnNavi("311056 - XXX", ""),
-            ], true);
-            navis.push(n);
+            var ERR_MES = "Failed to get navigation list.<br>";
+            $.get(url, function (data) {
+                try {
+                    data = JSON.parse(data);
+                    navis = data.map((d, i) => {
+                        return createJpnNavi(d);
+                    });
+                    success(navis);
+                    return navis;
 
-            var n = new JpnNavi("Kematian", "", [
-                new JpnNavi("311050 - XXX", ""),
-                new JpnNavi("311056 - XXX", ""),
-            ], true);
-            navis.push(n);
+                } catch (err) {
+                    parent.html(ERR_MES + err);
+                    return false;
+                }
+            }).fail(function (err) {
+                parent.html(ERR_MES + err);
+                return false;
+            });
+        }
 
-            var n = new JpnNavi("Pengangkatan", "", [
-                new JpnNavi("Penerimaan Permohonana", ""),
-                new JpnNavi("Pendaftaran De Facto", ""),
-                new JpnNavi("Pendaftaran Perintah Mahkamah", ""),
-                new JpnNavi("Pindaan Maklumat", ""),
-                new JpnNavi("Permohonan Cabutan", ""),
-            ], true);
-            navis.push(n);
 
-            var n = new JpnNavi("Perkahwinan & Penceraian", "", [
-                new JpnNavi("381050 - XXX", ""),
-                new JpnNavi("3811056 - XXX", ""),
-            ], true);
-            navis.push(n);
+        function registerResizer() {
 
-            var n = new JpnNavi("SPC", "", [
-                new JpnNavi("341050 - XXX", ""),
-                new JpnNavi("341056 - XXX", ""),
-            ], true);
-            navis.push(n);
+            function doResizing(leftWidth) {
+                if (content.length <= 0) {
+                    content = $(".jpn-content");
+                }
 
-            var n = new JpnNavi("Warganegara", "", null, true);
-            navis.push(n);
+                parent.css("width", "" + leftWidth + "px");
+                content.css("padding-left", "" + leftWidth + "px");
+                resizer.css("left", "" + leftWidth + "px");
+            }
 
-            var n = new JpnNavi("Kad Pengenalan", "", null, true);
-            navis.push(n);
+            resizer.mousedown(function (ev) {
+                intervalSizing = setInterval(function () {
+                    console.log(window.event.clientX);
+                }, 100);
 
-            var n = new JpnNavi("Siasatan & Penguatkuasaan iJPN", "", null, true);
-            navis.push(n);
+                // var cur = resizer.css("left");
+                // cur = Number.parseInt(cur.replace("px", ""));
+                // console.log(cur);
+              
+                //doResizing(ev.pageX);
 
-            var n = new JpnNavi("Senarai Hitam iJPN", "", null, true);
-            navis.push(n);
+            });
 
-            var n = new JpnNavi("Kutipan Hasil iJPN", "", null, true);
-            navis.push(n);
+            var intervalSizing = null;
+            resizer.mouseup(function (ev) {
+                if (intervalSizing !== null) {
+                    clearInterval(intervalSizing);
+                }
+            });
 
-            var n = new JpnNavi("Pengujudan & Pengesahan Rekod", "", null, true);
-            navis.push(n);
+        }
 
-            var n = new JpnNavi("AFIS", "", null, true);
-            navis.push(n);
 
-            var n = new JpnNavi("myIDENTITY", "", null, true);
-            navis.push(n);
-            
-            var n = new JpnNavi("iDATA", "", null, true);
-            navis.push(n);
+
+        function Main() {
+            registerResizer();
+            getData(SITE_ROOT + "/dataset/navigation.json", function (navis) {
+                renderNavis(navis, template);
+                renderNavis(navis, template);
+                addEventListener();
+            });
+        }
+
+
+        Main();
+    });
+
+
 
             /*
             n = new JpnNavi("Level 3", "", [
@@ -164,15 +191,5 @@
             navis.push(n);
             */
 
-            return navis;
-        }
 
-        function Main() {
-            var navis = getData();
-            renderNavis(navis, template);
-            addEventListener();
-        }
-
-        Main();
-    });
 </script>

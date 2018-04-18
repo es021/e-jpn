@@ -14,6 +14,14 @@ const APP_DIR = path.resolve(__dirname, 'app');
 const CSS_DIR = "asset/css/";
 const JS_DIR = "asset/js/";
 
+const UglifyWebpackPlugin = require("uglifyjs-webpack-plugin");
+
+// exports.minifyJavaScript = () => ({
+//     optimization: {
+//         minimizer: [new UglifyWebpackPlugin({ sourceMap: true })],
+//     },
+// });
+
 var allowProdMap = false;
 var isProd = false;
 if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "production-local") {
@@ -63,9 +71,11 @@ var plugins = [
 // Optimize and Minimize for Production
 if (isProd && !allowProdMap) {
     plugins = plugins.concat([
-        new webpack.optimize.AggressiveMergingPlugin(),
-        new webpack.optimize.OccurrenceOrderPlugin(),
+        new UglifyWebpackPlugin({ sourceMap: true }),
+        //new webpack.optimize.AggressiveMergingPlugin(),
+        //new webpack.optimize.OccurrenceOrderPlugin()
         //new webpack.optimize.DedupePlugin(), //deprecated
+        /*
         new webpack.optimize.UglifyJsPlugin({
             mangle: true,
             compress: {
@@ -80,10 +90,11 @@ if (isProd && !allowProdMap) {
             },
             exclude: [/\.min\.js$/gi] // skip pre-minified libs
         })
+        */
         //,new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/])
 
         //need to configure express
-        , new CompressionPlugin({
+        new CompressionPlugin({
             asset: "[path].gz[query]",
             algorithm: "gzip",
             test: /\.js$|\.css$|\.html$/,
@@ -93,12 +104,25 @@ if (isProd && !allowProdMap) {
     ]);
 }
 
+/*
 var jsxLoader = { test: /\.jsx?$/, exclude: /node_modules/ };
 if (isProd) {
     jsxLoader.loader = 'babel-loader';
     jsxLoader.query = {
         presets: ["es2015", "react", "modern-browsers"],
         plugins: ["transform-es2015-modules-commonjs"]
+    };
+} else {
+    jsxLoader.loader = 'react-hot-loader!babel-loader';
+}
+*/
+
+var jsxLoader = { test: /\app.js?$/, exclude: /node_modules/ };
+if (isProd) {
+    jsxLoader.loader = 'babel-loader';
+    jsxLoader.query = {
+        // presets: ["modern-browsers"],
+        //plugins: ["transform-es2015-modules-commonjs"]
     };
 } else {
     jsxLoader.loader = 'react-hot-loader!babel-loader';
@@ -111,13 +135,13 @@ module.exports = {
     //devtool: 'source-map', // false -- bigger
     plugins: plugins,
     module: {
-        loaders: [jsxLoader,
-            /*{test: /\.jsx?$/,
+        loaders: [
+            {test: /\.js?$/,
              exclude: /node_modules/,
-             loader: (isProd) ? 'babel-loader' : 'react-hot-loader!babel-loader',
-             query: {}
-             //query: {presets: ["es2015", "react", "modern-browsers"]}
-             },*/
+             loader: 'babel-loader',
+             //query: {}
+             query: {presets: ["es2015", "react", "modern-browsers"]}
+             },
             //{test: /\.js$/, loader: "babel?presets[]=es2015&presets[]=react", exclude: /node_modules/},
             { test: /\.css$/, loader: "style-loader!css-loader" },
             //{test: /\.scss$/, loader:  "style-loader!css-loader!sass-loader"},
