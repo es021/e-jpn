@@ -1,3 +1,6 @@
+@import '_constant.scss';
+
+
 /* header root level *******/
 .jpn-header{
 /*    display: -webkit-box;    
@@ -28,12 +31,11 @@
 }
 
 .jpn-header .h-left img.logo{
-    height: var(--HEADER-HEIGHT);
+    height: $HEADER-HEIGHT;
 }
 
 .jpn-header .h-left .title{
     font-size: 25px;
-    margin-bottom: 5px;
 }
 
 .jpn-header .h-left .subtitle{
