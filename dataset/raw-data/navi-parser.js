@@ -2,11 +2,77 @@
 
 $ = jQuery;
 
+
 $(document).ready(function () {
     var body = $("tbody");
     var GRP_NAME_COLOR = ["#70AD47", "#92D050"];
 
-    var HAS_DUPLICATE = ["selenggara", "cetakan","senarai-kerja"];
+    var HAS_DUPLICATE = ["selenggara", "cetakan", "senarai-kerja"];
+
+    var ORI_PARENT = {
+        "Kelahiran": {
+            grandMasterIndex: null
+        },
+        "Kematian": {
+            grandMasterIndex: null
+        },
+        "Pengangkatan eJPN": {
+            grandMasterIndex: 0
+        },
+        "Pengangkatan iJPN": {
+            grandMasterIndex: null
+        },
+        "SPC": {
+            grandMasterIndex: 1
+        },
+        "Perkahwinan dan Penceraian eJPN": {
+            grandMasterIndex: 2
+        },
+        "Perkahwinan dan Penceraian iJPN": {
+            grandMasterIndex: null
+        },
+        "Pengurusan Cawangan eJPN": {
+            grandMasterIndex: null
+        },
+        "Warganegara": {
+            grandMasterIndex: null
+        },
+        "Kad Pengenalan": {
+            grandMasterIndex: null
+        },
+        "Siasatan dan Penguatkuasaan": {
+            grandMasterIndex: null
+        },
+        "Senarai Hitam": {
+            grandMasterIndex: null
+        },
+        "Kutipan Hasil iJPN": {
+            grandMasterIndex: null
+        },
+        "Pengujudan dan Pengesahan Rekod": {
+            grandMasterIndex: null
+        },
+        "AFIS": {
+            grandMasterIndex: null
+        },
+        "myIDENTITY": {
+            grandMasterIndex: null
+        },
+        "iDATA": {
+            grandMasterIndex: null
+        },
+    }
+
+    function getLabelFromOriParent(index) {
+        for (var label in ORI_PARENT) {
+            var obj = ORI_PARENT[label];
+
+            if (obj.grandMasterIndex == index) {
+                return label;
+            }
+        }
+    }
+
 
     function createNormalCase(label) {
         var arr = label.split(" ");
@@ -24,6 +90,8 @@ $(document).ready(function () {
 
         return r;
     }
+
+
 
     function replaceAllWithoutRegex(text, search, replace) {
         while (text.indexOf(search) >= 0) {
@@ -81,19 +149,21 @@ $(document).ready(function () {
         var topId = "";
         var grandMasterID = "";
 
-        if (tableIndex == 0) {
-            topLabel = "Pengangkatan";
-            grandMasterID = createIdFromLabel("PENGANGKATAN");
+        topLabel = getLabelFromOriParent(tableIndex);
+        grandMasterID = createIdFromLabel(topLabel);
+        // if (tableIndex == 0) {
+        //     topLabel = "Pengangkatan";
+        //     grandMasterID = createIdFromLabel("PENGANGKATAN");
 
-        } else if (tableIndex == 1) {
-            topLabel = "SPC";
-            grandMasterID = createIdFromLabel("SPC");
+        // } else if (tableIndex == 1) {
+        //     topLabel = "SPC";
+        //     grandMasterID = createIdFromLabel("SPC");
 
-        } else if (tableIndex == 2) {
-            topLabel = "Kahwin Cerai";
-            grandMasterID = createIdFromLabel("KAHWIN CERAI");
+        // } else if (tableIndex == 2) {
+        //     topLabel = "Kahwin Cerai";
+        //     grandMasterID = createIdFromLabel("KAHWIN CERAI");
 
-        }
+        // }
 
 
         var master = [];
@@ -156,15 +226,35 @@ $(document).ready(function () {
             id: grandMasterID,
             label: topLabel,
             url: null,
-            isParent: true,
+            //isParent: true,
             children: master
         };
 
         grandMaster.push(arr);
     });
 
-    //console.log(grandMaster);
+    var superGrandData = [];
+    for (var label in ORI_PARENT) {
+        var obj = ORI_PARENT[label];
+        var arr = null;
+        if (obj.grandMasterIndex == null) {
+            arr = {
+                id: createIdFromLabel(label),
+                label: label,
+                url: null,
+                //isParent: true,
+                children: null
+            };
+        } else {
+            arr = grandMaster[obj.grandMasterIndex];
+        }
 
-    console.log(JSON.stringify(grandMaster));
+        superGrandData.push(arr);
+    }
+
+   // console.log(superGrandData);
+    console.log(JSON.stringify(superGrandData));
+
+    $("body").html(JSON.stringify(superGrandData));
 
 });

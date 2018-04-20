@@ -13,10 +13,21 @@
         "isParent": true,
         "children": [
             {
-                "id": "pengangkatan",
-                "label": "Pengangkatan",
+                "id": "kelahiran",
+                "label": "Kelahiran",
                 "url": null,
-                "isParent": true,
+                "children": null
+            },
+            {
+                "id": "kematian",
+                "label": "Kematian",
+                "url": null,
+                "children": null
+            },
+            {
+                "id": "pengangkatan-ejpn",
+                "label": "Pengangkatan eJPN",
+                "url": null,
                 "children": [
                     {
                         "id": "pendaftaran-pengangkatan-mahkamah",
@@ -161,7 +172,7 @@
                         ]
                     },
                     {
-                        "id": "pengangkatan-cetakan",
+                        "id": "pengangkatan-ejpn-cetakan",
                         "label": "Cetakan",
                         "url": null,
                         "children": [
@@ -224,10 +235,15 @@
                 ]
             },
             {
+                "id": "pengangkatan-ijpn",
+                "label": "Pengangkatan iJPN",
+                "url": null,
+                "children": null
+            },
+            {
                 "id": "spc",
                 "label": "SPC",
                 "url": null,
-                "isParent": true,
                 "children": [
                     {
                         "id": "spc-selenggara",
@@ -313,10 +329,9 @@
                 ]
             },
             {
-                "id": "kahwin-cerai",
-                "label": "Kahwin Cerai",
+                "id": "perkahwinan-dan-penceraian-ejpn",
+                "label": "Perkahwinan dan Penceraian eJPN",
                 "url": null,
-                "isParent": true,
                 "children": [
                     {
                         "id": "pendaftaran-perkahwinan",
@@ -447,7 +462,7 @@
                         ]
                     },
                     {
-                        "id": "kahwin-cerai-selenggara",
+                        "id": "perkahwinan-dan-penceraian-ejpn-selenggara",
                         "label": "Selenggara",
                         "url": null,
                         "children": [
@@ -460,7 +475,7 @@
                         ]
                     },
                     {
-                        "id": "kahwin-cerai-cetakan",
+                        "id": "perkahwinan-dan-penceraian-ejpn-cetakan",
                         "label": "Cetakan",
                         "url": null,
                         "children": [
@@ -497,6 +512,72 @@
                         ]
                     }
                 ]
+            },
+            {
+                "id": "perkahwinan-dan-penceraian-ijpn",
+                "label": "Perkahwinan dan Penceraian iJPN",
+                "url": null,
+                "children": null
+            },
+            {
+                "id": "pengurusan-cawangan-ejpn",
+                "label": "Pengurusan Cawangan eJPN",
+                "url": null,
+                "children": null
+            },
+            {
+                "id": "warganegara",
+                "label": "Warganegara",
+                "url": null,
+                "children": null
+            },
+            {
+                "id": "kad-pengenalan",
+                "label": "Kad Pengenalan",
+                "url": null,
+                "children": null
+            },
+            {
+                "id": "siasatan-dan-penguatkuasaan",
+                "label": "Siasatan dan Penguatkuasaan",
+                "url": null,
+                "children": null
+            },
+            {
+                "id": "senarai-hitam",
+                "label": "Senarai Hitam",
+                "url": null,
+                "children": null
+            },
+            {
+                "id": "kutipan-hasil-ijpn",
+                "label": "Kutipan Hasil iJPN",
+                "url": null,
+                "children": null
+            },
+            {
+                "id": "pengujudan-dan-pengesahan-rekod",
+                "label": "Pengujudan dan Pengesahan Rekod",
+                "url": null,
+                "children": null
+            },
+            {
+                "id": "afis",
+                "label": "AFIS",
+                "url": null,
+                "children": null
+            },
+            {
+                "id": "myidentity",
+                "label": "myIDENTITY",
+                "url": null,
+                "children": null
+            },
+            {
+                "id": "idata",
+                "label": "iDATA",
+                "url": null,
+                "children": null
             }
         ]
     },
