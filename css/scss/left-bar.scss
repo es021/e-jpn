@@ -16,22 +16,29 @@
         padding-bottom: 10px;
     }
     .li-item {
-        display: flex;
-        white-space: nowrap;
+        padding-bottom: 3px;
+        display: flex; //white-space: nowrap;
+        a.link {
+            color: white;
+            text-decoration: none; //display: inline-block;
+            padding-right: 10px;
+            cursor: pointer;
+        }
+        a.link:hover {
+            text-decoration: underline !important;
+        }
+        a.link.active {
+            color: blue;
+            background: white;
+            padding: 0 5px;
+            border-radius: 8px;
+        }
     }
     .expand {
         cursor: pointer;
     }
     .expand:hover {
         opacity: 0.8;
-    }
-    .link {
-        display: inline-block;
-        padding-right: 10px;
-        cursor: pointer;
-    }
-    .link:hover {
-        text-decoration: underline;
     }
     /* ############################ */
     /* 1st level parent only */

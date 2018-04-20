@@ -13,10 +13,6 @@
         var body = $(".jpn-content .content-body");
         var load = $(".jpn-content .content-load");
 
-        if (!page) {
-            page = "menu-utama";
-        }
-
         //return;
         var file = SITE_ROOT + "/page/" + page + ".html?v=" + HTML_VER;
         $.get(file, function (data) {

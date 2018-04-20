@@ -6,49 +6,71 @@
 <ul hidden="hidden" id="list-template" class="navi-list">
     <li class="li-item">
         <div class="expand"></div>
-        <div class="link">Level 1</div>
+        <a class="link">Level 1</a>
         <!-- to add more navi-list here of have children -->
     </li>
 </ul>
 
 <script>
 
-    var JpnNavi = function (id, label, url, children = null, isParent = false) {
+    var JpnNavi = function (id, label, url, children = null, isParent = false, code = null, auth = null) {
         this.id = id;
         this.label = label;
         this.url = url;
         this.isParent = isParent;
         this.children = children;
+        this.code = code;
+        this.auth = auth;
     };
 
-    JpnNavi.prototype.renderList = function (template) {
+    JpnNavi.prototype.getRealUrl = function () {
+        if (this.url !== null && typeof this.url !== "undefined" && this.url != "") {
+            return this.url;
+        }
+
+        var toRet = SITE_ROOT + "/?page=" + this.id;
+        if (this.code !== null && !Number.isNaN(Number.parseInt(this.code))) {
+            toRet += "&code=" + this.code;
+        }
+
+        return toRet;
+    };
+
+    JpnNavi.prototype.renderList = function (template, currentPage) {
         var el = template.clone(true, true);
         el.removeAttr("hidden");
         var expand = el.find(".expand");
+
+        // prepare link
         var link = el.find(".link");
         link.html(this.label);
+        link.attr("href", this.getRealUrl());
+        if (currentPage == this.id) {
+            link.addClass("active");
+        }
 
         if (this.isParent) {
             el.addClass("parent");
         }
-
         // has children
         if (this.children !== null) {
             var childs = $("<div class='children'></div>");
             for (var i in this.children) {
                 var c = this.children[i];
-                var c_el = c.renderList(template);
+                var c_el = c.renderList(template, currentPage);
                 childs.append(c_el);
             }
             el.append(childs);
-            expand.html(this.getArrow("down"));
-
+            childs.attr("hidden", "hidden");
+            expand.html(this.getArrow("right"));
         }
         // no children
         else {
-            expand.css("padding-left", "16px");
+            expand.html("<i class='fa fa-dot-circle left sm text-muted'></i>");
             expand.removeClass("expand");
         }
+
+        el.attr("id", this.id);
         return el;
     };
 
@@ -65,11 +87,12 @@
 
         var template = $("#list-template");
         var JPNNavi = new JpnNavi();
+        var currentPage = Util._GET("page");
 
         function renderNavis(navis, template) {
             for (var i in navis) {
                 var n = navis[i];
-                var el = n.renderList(template);
+                var el = n.renderList(template, currentPage);
                 parent.append(el);
             }
         }
@@ -89,6 +112,33 @@
                     e.html(JPNNavi.getArrow("down"));
                 }
             });
+
+            if (currentPage !== Util.PAGE_DEFAULT) {
+
+
+                try {
+                    var curEl = parent.find("#" + currentPage);
+                } catch (err) {
+                    console.log(err);
+                    curEl = [];
+                }
+
+                if (curEl.length > 0) {
+                    expandCurrentPage(curEl);
+                }
+            }
+        }
+
+        function expandCurrentPage(curEl) {
+            // expand base on currentPage
+            var siblings = curEl.parent();
+            if (!siblings.hasClass("jpn-left-bar")) {
+                siblings.removeAttr("hidden");
+                var parentUl = siblings.parent();
+                var parentLiExpand = parentUl.find(".li-item .expand");
+                $(parentLiExpand[0]).html(JPNNavi.getArrow("down"));
+                expandCurrentPage(parentUl)
+            }
         }
 
         function createJpnNavi(d) {
@@ -162,12 +212,10 @@
 
         }
 
-
-
         function Main() {
             registerResizer();
-            getData(SITE_ROOT + "/dataset/navigation.json", function (navis) {
-                renderNavis(navis, template);
+            var path = SITE_ROOT + "/dataset/navi-utama.json?v=" + NAVI_VER;
+            getData(path, function (navis) {
                 renderNavis(navis, template);
                 addEventListener();
             });
