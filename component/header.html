@@ -31,7 +31,17 @@
         var name = parent.find("#hdr-name");
         var office = parent.find("#hdr-office");
         var time = parent.find("#hdr-time");
-        
+
+        var logo = parent.find("img.logo");
+        var title = parent.find(".title");
+
+        function goToHome() {
+            window.location = SITE_ROOT;
+        }
+
+        logo.click(goToHome);
+        title.click(goToHome);
+
         name.html("Wan Zulsarhan");
         office.html("JPN IBU PEJABAT PUTRAJAYA");
         time.html("April 12, 2018 | 11:50 AM");

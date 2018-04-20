@@ -1,7 +1,4 @@
 @import '_constant.scss';
-
-
-/* header root level *******/
 .jpn-header{
 /*    display: -webkit-box;    
     display: -moz-box;     
@@ -16,37 +13,35 @@
     display: flex;
     padding: 0 10px;
     box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5); 
+    .h-left{
+        align-items: center;
+        display: flex;
+        img.logo{
+            height: $HEADER-HEIGHT;
+        }
+        .title{
+            color: $COLOR-BLUE;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        .subtitle{
+            opacity: 0.8;
+        }
+
+        .title, img.logo{
+            cursor: pointer;
+        }
+        .title:hover, img.logo:hover{
+            opacity: 0.7;
+        }
+        .title:active, img.logo:active{
+            opacity: 1;
+        }
+    }    
+
+    .h-right{
+        line-height: 15px;
+        text-align: center;
+        margin-right: 10px;
+    }    
 }
-
-/* header left *******/
-.jpn-header .h-left{
-    align-items: center;
-    display: flex;
-
-/*    display: -webkit-box;    
-    display: -moz-box;     
-    display: -ms-flexbox;   
-    display: -webkit-flex; 
-    display: flex;*/
-}
-
-.jpn-header .h-left img.logo{
-    height: $HEADER-HEIGHT;
-}
-
-.jpn-header .h-left .title{
-    font-size: 25px;
-}
-
-.jpn-header .h-left .subtitle{
-    opacity: 0.8;
-}
-
-/* header right *******/
-.jpn-header .h-right{
-    line-height: 15px;
-    text-align: center;
-    margin-right: 10px;
-}
-
- 

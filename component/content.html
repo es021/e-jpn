@@ -21,7 +21,15 @@
             finishLoad(err.responseText);
         });
 
+        function commentStyle(data) {
+            //comment out styling
+            data = data.replace("<style>", "<style>/*");
+            data = data.replace("</style>", "*/</style>");
+            return data;
+        }
+        
         function finishLoad(data) {
+            data = commentStyle(data);
             body.html(data);
             body.show();
             load.hide();
