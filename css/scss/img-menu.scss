@@ -8,8 +8,8 @@ $SM_DIMENSION: 150px;
         text-decoration: none;
         display: flex;
         background-size: cover;
-        background-position: center center;
-        border: black solid 1px;
+        background-position: center center; //border: black solid 1px;
+        box-shadow: 3px 4px 5px rgba(0, 0, 0, .5);
         height: $DIMENSION;
         width: $DIMENSION;
         margin: 10px;
@@ -62,7 +62,7 @@ $SM_DIMENSION: 150px;
     .jim-item {
         height: $SM_DIMENSION;
         width: $SM_DIMENSION;
-        .detail{
+        .detail {
             height: 40px;
         }
     }
