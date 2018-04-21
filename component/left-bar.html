@@ -12,75 +12,7 @@
 </ul>
 
 <script>
-
-    var JpnNavi = function (id, label, url, children = null, isParent = false, code = null, auth = null) {
-        this.id = id;
-        this.label = label;
-        this.url = url;
-        this.isParent = isParent;
-        this.children = children;
-        this.code = code;
-        this.auth = auth;
-    };
-
-    JpnNavi.prototype.getRealUrl = function () {
-        if (this.url !== null && typeof this.url !== "undefined" && this.url != "") {
-            return this.url;
-        }
-
-        var toRet = SITE_ROOT + "/?page=" + this.id;
-        if (this.code !== null && !Number.isNaN(Number.parseInt(this.code))) {
-            toRet += "&code=" + this.code;
-        }
-
-        return toRet;
-    };
-
-    JpnNavi.prototype.renderList = function (template, currentPage) {
-        var el = template.clone(true, true);
-        el.removeAttr("hidden");
-        var expand = el.find(".expand");
-
-        // prepare link
-        var link = el.find(".link");
-        link.html(this.label);
-        link.attr("href", this.getRealUrl());
-        if (currentPage == this.id) {
-            link.addClass("active");
-        }
-
-        if (this.isParent) {
-            el.addClass("parent");
-        }
-        // has children
-        if (this.children !== null) {
-            var childs = $("<div class='children'></div>");
-            for (var i in this.children) {
-                var c = this.children[i];
-                var c_el = c.renderList(template, currentPage);
-                childs.append(c_el);
-            }
-            el.append(childs);
-            childs.attr("hidden", "hidden");
-            expand.html(this.getArrow("right"));
-        }
-        // no children
-        else {
-            expand.html("<i class='fa fa-dot-circle left sm text-muted'></i>");
-            expand.removeClass("expand");
-        }
-
-        el.attr("id", this.id);
-        return el;
-    };
-
-    JpnNavi.prototype.getArrow = function (type) {
-        return "<i class='fa fa-chevron-circle-" + type + " left sm'></i>";
-    };
-
     $(document).ready(function () {
-
-        // #######################################
         var parent = $(".jpn-left-bar");
         var resizer = parent.find("#left-bar-resizer");
         var content = $(".jpn-content");
@@ -114,8 +46,6 @@
             });
 
             if (currentPage !== Util.PAGE_DEFAULT) {
-
-
                 try {
                     var curEl = parent.find("#" + currentPage);
                 } catch (err) {
@@ -131,6 +61,13 @@
 
         function expandCurrentPage(curEl) {
             // expand base on currentPage
+            // expand children
+            try {
+                var children = $(curEl.find(".children")[0]);
+                children.removeAttr("hidden");
+            } catch (err) { console.log(err); }
+
+            // expand all parents up above until root : jpn-left-bar
             var siblings = curEl.parent();
             if (!siblings.hasClass("jpn-left-bar")) {
                 siblings.removeAttr("hidden");
@@ -141,44 +78,8 @@
             }
         }
 
-        function createJpnNavi(d) {
-            var children = null;
-            if (d.children !== null && Array.isArray(d.children)) {
-                children = d.children.map((_d, _i) => {
-                    return createJpnNavi(_d);
-                })
-            }
-            return new JpnNavi(d.id, d.label, d.url, children, d.isParent);
-        }
-
-        function getData(url, success) {
-            // #########################################
-            // prepare data
-            var ERR_MES = "Failed to get navigation list.<br>";
-            $.ajax({
-                dataType: "json",
-                url: url,
-                data: {},
-                success: function (data) {
-                    try {
-                        console.log(data);
-                        //data = JSON.parse(data);
-                        navis = data.map((d, i) => {
-                            return createJpnNavi(d);
-                        });
-                        success(navis);
-                        return navis;
-
-                    } catch (err) {
-                        parent.html(ERR_MES + err);
-                        return false;
-                    }
-                }
-            });
-        }
-
-
         function registerResizer() {
+            return;
 
             function doResizing(leftWidth) {
                 if (content.length <= 0) {
@@ -194,13 +95,6 @@
                 intervalSizing = setInterval(function () {
                     console.log(window.event.clientX);
                 }, 100);
-
-                // var cur = resizer.css("left");
-                // cur = Number.parseInt(cur.replace("px", ""));
-                // console.log(cur);
-
-                //doResizing(ev.pageX);
-
             });
 
             var intervalSizing = null;
@@ -212,16 +106,34 @@
 
         }
 
-        function Main() {
-            registerResizer();
-            var path = SITE_ROOT + "/dataset/navi-utama.json?v=" + NAVI_VER;
-            getData(path, function (navis) {
-                renderNavis(navis, template);
-                addEventListener();
-            });
+        function createJpnNavi(d) {
+            var children = null;
+            if (d.children !== null && Array.isArray(d.children)) {
+                children = d.children.map((_d, _i) => {
+                    return createJpnNavi(_d);
+                })
+            }
+            return new JpnNavi(d.id, d.label, d.url, children, d.isParent);
         }
 
+        function Main() {
+            registerResizer();
+            var ERR_MES = "Failed to get navigation list.<br>";
+            Util.getNaviFile(function (data) {
+                try {
+                    var navis = data.map((d, i) => {
+                        return createJpnNavi(d);
+                    });
+                    renderNavis(navis, template);
+                    addEventListener();
+                } catch (err) {
+                    parent.html(ERR_MES + err)
+                }
 
+            }, function (err) {
+                parent.html(ERR_MES + err);
+            });
+        }
         Main();
     });
 

@@ -7,7 +7,7 @@ $(document).ready(function () {
     var body = $("tbody");
     var GRP_NAME_COLOR = ["#70AD47", "#92D050"];
 
-    var HAS_DUPLICATE = ["selenggara", "cetakan", "senarai-kerja"];
+    var HAS_DUPLICATE = ["selenggara", "cetakan", "senarai-kerja","pendaftaran-perkahwinan"];
 
     var ORI_PARENT = {
         "Kelahiran": {
@@ -97,7 +97,6 @@ $(document).ready(function () {
         while (text.indexOf(search) >= 0) {
             text = text.replace(search, replace);
         }
-
         return text;
     }
 

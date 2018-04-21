@@ -1,12 +1,12 @@
-$DIMENSION : 200px;
+$DIMENSION: 200px;
+$SM_DIMENSION: 150px;
 .jpn-img-menu {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-
     .jim-item {
+        text-decoration: none;
         display: flex;
-
         background-size: cover;
         background-position: center center;
         border: black solid 1px;
@@ -19,13 +19,15 @@ $DIMENSION : 200px;
             transition: height 0.5s ease;
             background: rgba(0, 0, 0, 0.6);
             color: white;
-            text-decoration: none;
             align-self: flex-end;
             width: 100%;
-            height: 25px;
-            text-align: center;
+            height: 50px;
             padding: 4px;
-
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
             .label {
                 font-weight: bold;
                 padding-top: 2px;
@@ -35,23 +37,38 @@ $DIMENSION : 200px;
                 -webkit-transition: visibility 0.5s, opacity 0.5s ease;
                 transition: visibility 0.5s, opacity 0.5s ease;
                 opacity: 0;
-                visibility: hidden;
+                display: none;
                 font-size: 80%;
                 padding: 5px;
             }
         }
     }
-
     .jim-item:hover {
         .detail {
             height: $DIMENSION;
             padding: 0;
         }
-
         .desc {
-            visibility: visible;
+            display: initial;
             opacity: 1;
         }
     }
 }
 
+// #########################################
+// Small
+.jpn-img-menu.md {
+    font-size: 80%;
+    .jim-item {
+        height: $SM_DIMENSION;
+        width: $SM_DIMENSION;
+        .detail{
+            height: 40px;
+        }
+    }
+    .jim-item:hover {
+        .detail {
+            height: $SM_DIMENSION;
+        }
+    }
+}

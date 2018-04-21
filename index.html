@@ -25,28 +25,44 @@
     <script>
         $ = jQuery;
         // Define Global Variable
-        var SITE_ROOT = "test-e";
-        var MASTER_VER = "hurnmmmajce";
 
+        // directory root
+        var SITE_ROOT = "test-e";
+        var TEMPLATE_ROOT = SITE_ROOT + "/component/template";
+
+        // versioning
+        var MASTER_VER = "ver2121";
         var NAVI_VER = MASTER_VER;
         var JS_VER = MASTER_VER;
         var CSS_VER = MASTER_VER;
         var HTML_VER = MASTER_VER;
 
+        //file path
+        var NAVI_PATH = SITE_ROOT + "/dataset/navi-utama.json?v=" + NAVI_VER;
+
         function jpnGetFileUrl(type, arr) {
-            return arr.map((d, i) => {
+            var toRet = [];
+            for (var i in arr) {
+                var d = arr[i];
                 switch (type) {
                     case 'css':
-                        return SITE_ROOT + "/css/" + d + ".css";
+                        toRet.push(SITE_ROOT + "/css/" + d + ".css");
+                        break;
                     case 'js':
-                        return SITE_ROOT + "/js/" + d + ".js";
+                        toRet.push(SITE_ROOT + "/js/" + d + ".js");
+                        break;
+                    case 'template':
+                        toRet.push(TEMPLATE_ROOT + "/" + d + ".js");
+                        break;
                 }
-            });
+            }
+            return toRet;
         }
         var cssToLoad = jpnGetFileUrl("css", [
             "loading", "fontawesome-all.min", "main.bundle"
         ]);
-        var jsToLoad = jpnGetFileUrl("js", ["Util"]);
+        var templateToLoad = jpnGetFileUrl("template", ["ImageMenu"]);
+        var jsToLoad = jpnGetFileUrl("js", ["NaviImageMenus", "Util", "JpnNavi"]);
         var htmlToLoad = ["header-html", "left-bar-html", "content-html", "footer-html"];
     </script>
 </head>
@@ -72,7 +88,7 @@
                 //console.log("Start Load Asset");
                 //console.log(window.location.host);
                 var assetLoaded = 0;
-                var totalAsset = jsToLoad.length + cssToLoad.length + htmlToLoad.length;
+                var totalAsset = jsToLoad.length + cssToLoad.length + htmlToLoad.length + templateToLoad.length;
 
                 var jsLoaded = 0;
                 var totalJs = jsToLoad.length;
@@ -139,7 +155,6 @@
                             defaultCallback(type);
                         };
                     }
-
                     if (type === 'js') {
                         asset.src = url + "?v=" + JS_VER;
                         head.appendChild(asset);
@@ -176,6 +191,11 @@
 
                 // 2. load js
                 jsToLoad.map(function (d, i) {
+                    loadAsset("js", d);
+                });
+
+                // 2. load js template
+                templateToLoad.map(function (d, i) {
                     loadAsset("js", d);
                 });
 

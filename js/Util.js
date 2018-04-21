@@ -22,8 +22,42 @@ class UtilClass {
         if (sParam == "page" && !toRet) {
             toRet = this.PAGE_DEFAULT;
         }
-        
+
         return toRet;
     }
+
+
+    getNaviChildren(navi, parentList, level = 0) {
+        var curParent = parentList[level];
+        if (level == parentList.length) {
+            return navi;
+        }
+
+        for (var i in navi) {
+            var parent = navi[i];
+            if (parent.id == curParent) {
+                return this.getNaviChildren(parent.children, parentList, level + 1);
+            }
+        }
+    }
+    
+    getNaviFile(success, error = null) {
+        $.ajax({
+            dataType: "json",
+            url: NAVI_PATH,
+            data: {},
+            success: function (data) {
+                success(data);
+            },
+            error: function (err) {
+                if (error !== null) {
+                    error(err);
+                } else {
+                    alert(err);
+                }
+            }
+        });
+    }
+
 }
 var Util = new UtilClass();

@@ -334,7 +334,7 @@
                 "url": null,
                 "children": [
                     {
-                        "id": "pendaftaran-perkahwinan",
+                        "id": "perkahwinan-dan-penceraian-ejpn-pendaftaran-perkahwinan",
                         "label": "Pendaftaran Perkahwinan",
                         "url": null,
                         "children": [
@@ -390,7 +390,7 @@
                                 "label": "Pendaftaran Perkahwinan",
                                 "code": "341550",
                                 "auth": "11000000",
-                                "id": "pendaftaran-perkahwinan"
+                                "id": "perkahwinan-dan-penceraian-ejpn-pendaftaran-perkahwinan-pendaftaran-perkahwinan"
                             },
                             {
                                 "label": "Bayaran Pendaftaran Perkahwinan",
