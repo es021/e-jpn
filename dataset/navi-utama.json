@@ -30,7 +30,7 @@
                 "url": null,
                 "children": [
                     {
-                        "id": "pendaftaran-pengangkatan-mahkamah",
+                        "id": "pengangkatan-ejpn-pendaftaran-pengangkatan-mahkamah",
                         "label": "Pendaftaran Pengangkatan Mahkamah",
                         "url": null,
                         "children": [
@@ -44,7 +44,7 @@
                                 "label": "Pendaftaran Pengangkatan Mahkamah",
                                 "code": "382050",
                                 "auth": "11000000",
-                                "id": "pendaftaran-pengangkatan-mahkamah"
+                                "id": "pengangkatan-ejpn-pendaftaran-pengangkatan-mahkamah-pendaftaran-pengangkatan-mahkamah"
                             },
                             {
                                 "label": "Pengesahan Pendaftaran Pengangkatan Mahkamah",
