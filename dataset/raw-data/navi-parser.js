@@ -24,16 +24,13 @@ $(document).ready(function () {
             "Pengangkatan iJPN": {
                 grandMasterIndex: null
             },
-            "SPC": {
+            "Pengurusan Cawangan eJPN": {
                 grandMasterIndex: 1
             },
             "Perkahwinan dan Penceraian eJPN": {
                 grandMasterIndex: 2
             },
             "Perkahwinan dan Penceraian iJPN": {
-                grandMasterIndex: null
-            },
-            "Pengurusan Cawangan eJPN": {
                 grandMasterIndex: null
             },
             "Warganegara": {
